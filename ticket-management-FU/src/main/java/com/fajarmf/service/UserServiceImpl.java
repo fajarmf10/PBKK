@@ -1,6 +1,7 @@
 package com.fajarmf.service;
 
 import java.util.LinkedList;
+
 import java.util.List;
 import com.fajarmf.model.User;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,6 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
-	// Dummy users
 	public static List<User> users;
 
 	public UserServiceImpl() {
