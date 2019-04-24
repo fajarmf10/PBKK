@@ -33,4 +33,49 @@ public class Ticket {
 		// TODO Auto-generated method stub
 		return creatorid;
 	}
+
+	public Integer getTicketid() {
+		return ticketid;
+	}
+
+	public Date getCreatedat() {
+		return createdat;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public Integer getSeverity() {
+		return severity;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setTicketid(Integer ticketid) {
+		this.ticketid = ticketid;
+	}
+
+	public void setCreatorid(Integer creatorid) {
+		this.creatorid = creatorid;
+	}
+
+	public void setCreatedat(Date createdat) {
+		this.createdat = createdat;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setSeverity(Integer severity) {
+		this.severity = severity;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 }

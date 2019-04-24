@@ -1,8 +1,10 @@
 package com.fajarmf.restapp.ticketmanagement;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fajarmf.aop.TokenRequired;
 import com.fajarmf.aop.UserTokenRequired;
 import com.fajarmf.model.User;
 import com.fajarmf.service.TicketService;
@@ -27,6 +30,46 @@ public class TicketController {
 	
 	@Autowired
 	UserService userSevice;
+	
+	@ResponseBody
+	@TokenRequired
+	@RequestMapping("/{ticketid}")
+	public <T> T getTicket(
+	@PathVariable("ticketid") final Integer ticketid,
+	HttpServletRequest request
+	) {
+		return (T) Util.getSuccessResult(ticketSevice.getTicket(ticketid));
+	}
+	
+	@ResponseBody
+	@UserTokenRequired
+	@RequestMapping(value = "/{ticketid}", method = RequestMethod.DELETE)
+	public <T> T deleteTicketByUser (
+	@RequestParam("ticketid") final Integer ticketid,
+	HttpServletRequest request
+	) {
+		User user = userSevice.getUserByToken(request.getHeader("token"));
+		ticketSevice.deleteMyTicket(user.getUserid(), ticketid);
+		return Util.getSuccessResult();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/{ticketid}", method = RequestMethod.PUT)
+	public <T> T updateTicketByCustomer (
+			@PathVariable("ticketid") final Integer ticketid,
+			@RequestParam(value="content") String content,
+			HttpServletRequest request,
+			HttpServletResponse response
+	) {
+		User user = userSevice.getUserByToken(request.getHeader("token"));
+		if(user == null){
+			return Util.getUserNotAvailableError();
+		}
+		ticketSevice.updateTicket(ticketid, content, 2, 1);
+		Map<String, String> result = new LinkedHashMap<>();
+		result.put("result", "updated");
+		return (T) result;
+	}
 	
 	@ResponseBody
 	@RequestMapping("/my/tickets")
