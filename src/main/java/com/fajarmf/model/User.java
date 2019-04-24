@@ -39,20 +39,39 @@ public class User {
 	}
 
 	private String username;
-
-	public User(Integer userid, String username) {
+	
+	public User(Integer userid, String username, Integer usertype) {		
+		
 		this.userid = userid;
 		this.username = username;
+		this.usertype = usertype;
+	}
+	
+	public User(){
+		
+	}
+	
+	public User(Integer userid, Integer usertype) {
+		this.userid = userid;
+		this.usertype = usertype;
+	}
+	
+	public User(String username, Integer usertype) {
+		userCounter++;
+		
+		this.userid = userCounter;
+		this.username = username;
+		this.usertype = usertype;
 	}
 	
 	public User(String username, String password, Integer usertype) {
 		userCounter++;
+		
 		this.userid = userCounter;
 		this.username = username;
 		this.password = password;
 		this.usertype = usertype;
 	}
-	
 	@Override
 	public String toString() {
 		return "User >>> [userid=" + userid + ", username=" + username + "]";

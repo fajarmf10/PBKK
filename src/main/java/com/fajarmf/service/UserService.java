@@ -12,4 +12,6 @@ public interface UserService {
 	void deleteUser(Integer userid);
 	void createUser(String username, String password, Integer usertype);
 	User getUser(String username, String password, Integer usertype);
+	User getUserByToken(String token);
+	void createUser(Integer userid, String username, Integer usertype);
 }

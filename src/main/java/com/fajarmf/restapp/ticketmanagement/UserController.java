@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.crypto.SecretKey;
+
 import com.fajarmf.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fajarmf.service.SecurityService;
+import com.fajarmf.service.SecurityServiceImpl;
 import com.fajarmf.service.UserService;
 import com.fajarmf.util.Util;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 
 @RestController
 @RequestMapping("/user")
@@ -129,6 +135,7 @@ public class UserController {
 		String token = securityService.createToken(subject, (15 * 1000 * 60));
 		return Util.getSuccessResult(token);
 	}
+	
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.PUT)

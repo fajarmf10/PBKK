@@ -17,7 +17,7 @@ import io.jsonwebtoken.security.Keys;
 public class SecurityServiceImpl implements SecurityService {
 //	private static final String secretKey = "Ibkyz06PGlbZWrzUH98WGJEgESviPeLAB9D4B5C665C6EC231D3C3493D6B65";
 
-	private static final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+	public static final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 	
 	@Override
 	public String createToken(String subject, long ttlMillis) {
