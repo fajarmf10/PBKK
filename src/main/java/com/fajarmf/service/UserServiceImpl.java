@@ -28,6 +28,16 @@ public class UserServiceImpl implements UserService {
 		.orElse(new User(0, "Not Available"));
 		
 	}
+	
+	@Override
+	public User getUser(String username, String password, Integer usertype) {
+		
+		return users.stream()
+		.filter(x -> x.getUsername().equalsIgnoreCase(username) &&
+				x.getPassword().equalsIgnoreCase(password)  && x.getUserType() == usertype )
+		.findAny()
+		.orElse(null);
+	}
 
 	@Override
 	public void createUser(Integer userid, String username) {

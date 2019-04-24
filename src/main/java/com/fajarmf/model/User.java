@@ -14,8 +14,8 @@ public class User {
 		this.password = password;
 	}
 	
-	public String getUserType() {
-		return this.getUserType();
+	public Integer getUserType() {
+		return this.usertype;
 	}
 	
 	public void setUserType(Integer userType) {

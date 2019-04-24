@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fajarmf.service.SecurityService;
 import com.fajarmf.service.UserService;
 import com.fajarmf.util.Util;
 
@@ -21,6 +22,9 @@ import com.fajarmf.util.Util;
 public class UserController {
 	@Autowired
 	UserService userSevice;
+	
+	@Autowired
+	SecurityService securityService;
 
 	@ResponseBody
 	@RequestMapping("")
@@ -75,6 +79,55 @@ public class UserController {
 			userSevice.createUser(userid, username);
 			map.put("result", "Berhasil ditambahkan");
 			return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/login/customer", method = RequestMethod.POST)
+	public Map<String, Object> loginCustomer(
+	@RequestParam(value = "username") String username,
+	@RequestParam(value = "password") String password
+	) {
+		User user = userSevice.getUser(username, password, 1);
+		if(user == null){
+			return Util.getUserNotAvailableError();
+		}
+		String subject = user.getUserid()+"="+user.getUserType();
+		String token = securityService.createToken(subject, (15 * 1000 * 60));
+		return Util.getSuccessResult(token);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/login/admin", method = RequestMethod.POST)
+	public Map<String, Object> loginAdmin(
+	@RequestParam(value = "username") String username,
+	@RequestParam(value = "password") String password
+	) {
+		Map<String, Object> map = new LinkedHashMap<>();
+		User user = userSevice.getUser(username, password, 3);
+		if(user == null){
+			return Util.getUserNotAvailableError();
+		}
+		String subject = user.getUserid()+"="+user.getUserType();
+		String token = securityService.createToken(subject, (15 * 1000 * 60));
+		map.put("result_code", 0);
+		map.put("result", "success");
+		map.put("token", token);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/login/csr", method = RequestMethod.POST)
+	public Map<String, Object> loginCSR(
+	@RequestParam(value = "username") String username,
+	@RequestParam(value = "password") String password
+	) {
+		User user = userSevice.getUser(username, password, 2);
+		if(user == null){
+			return Util.getUserNotAvailableError();
+		}
+		String subject = user.getUserid()+"="+user.getUserType();
+		String token = securityService.createToken(subject, (15 * 1000 * 60));
+		return Util.getSuccessResult(token);
 	}
 
 	@ResponseBody
