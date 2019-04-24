@@ -2,6 +2,7 @@ package com.fajarmf.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,5 +18,14 @@ public class TicketServiceImpl implements TicketService {
 	public void addTicket(Integer creatorid, String content, Integer severity, Integer status) {
 		Ticket ticket = new Ticket(creatorid, new Date(), content, severity, status);
 		tickets.add(ticket);
+	}
+
+	@Override
+	public List<Ticket> getMyTickets(Integer creatorid) {		
+		
+		return tickets.stream()
+				.filter(x -> x.getCreatorid().intValue() == creatorid.intValue())				
+				.collect(Collectors.toList())
+				;
 	}
 }

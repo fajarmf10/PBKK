@@ -28,4 +28,9 @@ public class Ticket {
 		this.severity = severity;
 		this.status = status;
 	}
+
+	public Integer getCreatorid() {
+		// TODO Auto-generated method stub
+		return creatorid;
+	}
 }
