@@ -12,4 +12,6 @@ public interface TicketService {
 	void addTicket(Integer creatorid, String content, Integer severity, Integer status);
 	void updateTicket(Integer ticketid, String content, Integer severity, Integer status);
 	void deleteMyTicket(Integer userid, Integer ticketid);
+	List<Ticket> getAllTickets();
+	void deleteTickets(User user, String ticketids);
 }

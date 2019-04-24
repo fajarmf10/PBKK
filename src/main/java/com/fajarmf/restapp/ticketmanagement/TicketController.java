@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fajarmf.aop.AdminTokenRequired;
 import com.fajarmf.aop.TokenRequired;
 import com.fajarmf.aop.UserTokenRequired;
 import com.fajarmf.model.User;
@@ -39,6 +40,35 @@ public class TicketController {
 	HttpServletRequest request
 	) {
 		return (T) Util.getSuccessResult(ticketSevice.getTicket(ticketid));
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/by/admin", method = RequestMethod.PUT)
+	public <T> T updateTicketByAdmin (
+	@RequestParam("ticketid") final Integer ticketid,
+	@RequestParam(value="content") String content,
+	@RequestParam(value="severity") Integer severity,
+	@RequestParam(value="status") Integer status,
+	HttpServletRequest request,
+	HttpServletResponse response
+	) {
+		User user = userSevice.getUserByToken(request.getHeader("token"));
+		if(user == null){
+			return Util.getUserNotAvailableError();
+		}
+		ticketSevice.updateTicket(ticketid, content, severity, status);
+		Map<String, String> result = new LinkedHashMap<>();
+		result.put("result", "updated");
+		return (T) result;
+	}
+	
+	@ResponseBody
+	@AdminTokenRequired
+	@RequestMapping("/by/admin")
+	public <T> T getAllTickets(
+	HttpServletRequest request,
+	HttpServletResponse response) {
+		return (T) ticketSevice.getAllTickets();
 	}
 	
 	@ResponseBody
@@ -69,6 +99,18 @@ public class TicketController {
 		Map<String, String> result = new LinkedHashMap<>();
 		result.put("result", "updated");
 		return (T) result;
+	}
+	
+	@ResponseBody
+	@AdminTokenRequired
+	@RequestMapping(value = "/by/admin", method = RequestMethod.DELETE)
+	public <T> T deleteTicketsByAdmin (
+	@RequestParam("ticketids") final String ticketids,
+	HttpServletRequest request
+	) {
+		User user = userSevice.getUserByToken(request.getHeader("token"));
+		ticketSevice.deleteTickets(user, ticketids);
+		return Util.getSuccessResult();
 	}
 	
 	@ResponseBody
