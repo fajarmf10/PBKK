@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fajarmf.aop.AdminTokenRequired;
+import com.fajarmf.aop.CSRTokenRequired;
 import com.fajarmf.aop.TokenRequired;
 import com.fajarmf.aop.UserTokenRequired;
 import com.fajarmf.model.User;
@@ -84,6 +85,21 @@ public class TicketController {
 	}
 	
 	@ResponseBody
+	@CSRTokenRequired
+	@RequestMapping(value = "/by/csr", method =  RequestMethod.DELETE)
+	public <T> T deleteTicketsByCSR (
+			@RequestParam("ticketids") final String ticketids,
+			
+			HttpServletRequest request
+			) {
+		
+		User user = userSevice.getUserByToken(request.getHeader("token"));
+		ticketSevice.deleteTickets(user, ticketids);
+		
+		return Util.getSuccessResult(); 
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/{ticketid}", method = RequestMethod.PUT)
 	public <T> T updateTicketByCustomer (
 			@PathVariable("ticketid") final Integer ticketid,
@@ -99,6 +115,20 @@ public class TicketController {
 		Map<String, String> result = new LinkedHashMap<>();
 		result.put("result", "updated");
 		return (T) result;
+	}
+	
+	@ResponseBody
+	@CSRTokenRequired
+	@RequestMapping(value = "/by/csr", method = RequestMethod.PUT)
+	public <T> T updateTicketByCSR (
+	@RequestParam("ticketid") final Integer ticketid,
+	@RequestParam(value="content") String content,
+	@RequestParam(value="severity") Integer severity,
+	@RequestParam(value="status") Integer status,
+	HttpServletRequest request
+	) {
+		ticketSevice.updateTicket(ticketid, content, severity, status);
+		return Util.getSuccessResult();
 	}
 	
 	@ResponseBody

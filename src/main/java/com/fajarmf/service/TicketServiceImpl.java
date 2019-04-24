@@ -56,13 +56,32 @@ public class TicketServiceImpl implements TicketService {
 	
 	@Override
 	public void deleteTickets(User user, String ticketids) {
-	List<String> ticketObjList = Arrays.asList(ticketids.split(","));
-	List<Integer> intList =
-	ticketObjList.stream()
-	.map(Integer::valueOf)
-	.collect(Collectors.toList());
-	tickets.removeIf(x -> intList.contains(x.getTicketid()));
+		
+		List<String> ticketObjList = Arrays.asList(ticketids.split(","));
+		
+		if(user.getUserType() == 2 && ticketObjList.size() > 3){
+			throw new RuntimeException("CSR can't delete more than 3 tickets");
+		}
+		
+		List<Integer> intList =
+			ticketObjList.stream()
+			.map(Integer::valueOf)
+			.collect(Collectors.toList())
+        ;					
+		
+		tickets.removeIf(x -> intList.contains(x.getTicketid()));
 	}
+	
+	
+//	@Override
+//	public void deleteTickets(User user, String ticketids) {
+//	List<String> ticketObjList = Arrays.asList(ticketids.split(","));
+//	List<Integer> intList =
+//	ticketObjList.stream()
+//	.map(Integer::valueOf)
+//	.collect(Collectors.toList());
+//	tickets.removeIf(x -> intList.contains(x.getTicketid()));
+//	}
 	
 	@Override
 	public List<Ticket> getAllTickets() {
@@ -79,4 +98,10 @@ public class TicketServiceImpl implements TicketService {
 		ticket.setSeverity(severity);
 		ticket.setStatus(status);
 	}
+
+//	@Override
+//	public void deleteTickets(Integer userid, String ticketids) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }
