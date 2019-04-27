@@ -1,0 +1,9 @@
+Kerjakan tutorial pada week 8 sebagai berikut:
+- Spring security
+
+Kompres 1 folder project menjadi satu file ZIP dengan format sebagai berikut:
+TUGAS_W8_PBKK_C_NRP.zip
+
+contoh: 
+
+TUGAS_W8_PBKK_C_0511xxxxxxxxxx.zip
