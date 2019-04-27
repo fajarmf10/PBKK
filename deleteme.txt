@@ -1,0 +1,10 @@
+ Volume in drive D is Kuliah
+ Volume Serial Number is 90D8-2F4E
+
+ Directory of D:\PBKK\Git
+
+04/27/2019  10:32 AM    <DIR>          .
+04/27/2019  10:32 AM    <DIR>          ..
+04/27/2019  10:32 AM                 0 deleteme.txt
+               1 File(s)              0 bytes
+               2 Dir(s)  185,350,283,264 bytes free
