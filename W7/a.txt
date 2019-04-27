@@ -1,0 +1,8 @@
+Kerjakan tutorial pada week 7 sebagai berikut:
+- Apache Maven
+- RESTful Web Services
+- CRUD operations
+- File uploads
+
+
+TUGAS_W7_PBKK_D_0511xxxxxxxxxx.zip
